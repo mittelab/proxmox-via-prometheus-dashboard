@@ -9,6 +9,7 @@
       "pluginName": "Prometheus"
     }
   ],
+  "__elements": {},
   "__requires": [
     {
       "type": "panel",
@@ -20,12 +21,12 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "6.7.2"
+      "version": "9.3.2"
     },
     {
       "type": "panel",
       "id": "graph",
-      "name": "Graph",
+      "name": "Graph (old)",
       "version": ""
     },
     {
@@ -36,14 +37,8 @@
     },
     {
       "type": "panel",
-      "id": "singlestat",
-      "name": "Singlestat",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "table",
-      "name": "Table",
+      "id": "table-old",
+      "name": "Table (old)",
       "version": ""
     }
   ],
@@ -52,28 +47,40 @@
       {
         "$$hashKey": "object:215",
         "builtIn": 1,
-        "datasource": "-- Grafana --",
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
         "limit": 100,
         "name": "Annotations & Alerts",
         "showIn": 0,
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
         "type": "dashboard"
       }
     ]
   },
   "description": "Proxmox Virtual Environment Dashboard",
   "editable": true,
-  "gnetId": 10347,
+  "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1589401091126,
   "links": [],
+  "liveNow": false,
   "panels": [
     {
       "columns": [],
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
       "fontSize": "100%",
       "gridPos": {
         "h": 10,
@@ -83,7 +90,6 @@
       },
       "id": 17,
       "links": [],
-      "pageSize": null,
       "scroll": true,
       "showHeader": true,
       "sort": {
@@ -94,7 +100,6 @@
         {
           "alias": "",
           "align": "auto",
-          "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
             "rgba(237, 129, 40, 0.89)",
@@ -111,7 +116,6 @@
         {
           "alias": "ID",
           "align": "auto",
-          "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
             "rgba(237, 129, 40, 0.89)",
@@ -128,7 +132,6 @@
         {
           "alias": "Name",
           "align": "auto",
-          "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
             "rgba(237, 129, 40, 0.89)",
@@ -145,7 +148,6 @@
         {
           "alias": "Type",
           "align": "auto",
-          "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
             "rgba(237, 129, 40, 0.89)",
@@ -162,7 +164,6 @@
         {
           "alias": "",
           "align": "auto",
-          "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
             "rgba(237, 129, 40, 0.89)",
@@ -208,7 +209,6 @@
         {
           "alias": "vCPUs",
           "align": "auto",
-          "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
             "rgba(237, 129, 40, 0.89)",
@@ -225,7 +225,6 @@
         {
           "alias": "Memory",
           "align": "auto",
-          "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
             "rgba(237, 129, 40, 0.89)",
@@ -262,7 +261,6 @@
         {
           "alias": "Disk",
           "align": "auto",
-          "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
             "rgba(237, 129, 40, 0.89)",
@@ -286,7 +284,6 @@
             "rgba(245, 54, 54, 0.9)"
           ],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": null,
           "mappingType": 1,
           "pattern": "Value #G",
           "thresholds": [
@@ -299,6 +296,10 @@
       ],
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
           "expr": "sum by (id, name, type) (pve_guest_info{instance=\"$instance\",template!=\"1\"})",
           "format": "table",
           "instant": true,
@@ -307,6 +308,10 @@
           "refId": "A"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
           "expr": "sum by (id) (pve_up{instance=\"$instance\",template!=\"1\"} and on (id, instance) pve_guest_info)",
           "format": "table",
           "instant": true,
@@ -316,6 +321,10 @@
           "refId": "B"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
           "expr": "sum by (id) (pve_cpu_usage_limit{instance=\"$instance\",template!=\"1\"} and on (id, instance) pve_guest_info)",
           "format": "table",
           "instant": true,
@@ -325,6 +334,10 @@
           "refId": "C"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
           "expr": "sum by (id) (pve_memory_size_bytes{instance=\"$instance\",template!=\"1\"} and on (id, instance) pve_guest_info)",
           "format": "table",
           "instant": true,
@@ -334,6 +347,10 @@
           "refId": "D"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
           "expr": "sum by (id) (pve_memory_usage_bytes{instance=\"$instance\",template!=\"1\"} / pve_memory_size_bytes and on (id, instance) pve_guest_info)",
           "format": "table",
           "instant": true,
@@ -343,6 +360,10 @@
           "refId": "E"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
           "expr": "sum by (id) (pve_disk_size_bytes{instance=\"$instance\",template!=\"1\"} and on (id, instance) pve_guest_info)",
           "format": "table",
           "instant": true,
@@ -352,6 +373,10 @@
           "refId": "F"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
           "expr": "sum by (id) (pve_disk_usage_bytes{instance=\"$instance\",template!=\"1\"} / pve_disk_size_bytes and on (id, instance) pve_guest_info)",
           "format": "table",
           "instant": true,
@@ -361,30 +386,54 @@
           "refId": "G"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Resource allocation summary",
       "transform": "table",
-      "type": "table"
+      "type": "table-old"
     },
     {
-      "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
-      "datasource": "${DS_PROMETHEUS}",
-      "decimals": 2,
-      "format": "percentunit",
-      "gauge": {
-        "maxValue": 1,
-        "minValue": 0,
-        "show": true,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "max": 1,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#299c46",
+                "value": null
+              },
+              {
+                "color": "rgba(237, 129, 40, 0.89)",
+                "value": 0.7
+              },
+              {
+                "color": "#d44a3a",
+                "value": 0.9
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 5,
@@ -395,40 +444,27 @@
       "id": 7,
       "interval": "",
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": true
+      "options": {
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "text": {}
       },
-      "tableColumn": "",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
           "expr": "pve_cpu_usage_ratio{instance=\"$instance\"} / pve_cpu_usage_limit and on(id) pve_node_info",
           "format": "time_series",
           "intervalFactor": 1,
@@ -436,39 +472,53 @@
           "refId": "A"
         }
       ],
-      "thresholds": "0.7,0.9",
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Host CPU",
-      "type": "singlestat",
-      "valueFontSize": "80%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
+      "type": "gauge"
     },
     {
-      "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
-      "datasource": "${DS_PROMETHEUS}",
-      "decimals": 2,
-      "format": "percentunit",
-      "gauge": {
-        "maxValue": 1,
-        "minValue": 0,
-        "show": true,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "max": 1,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#299c46",
+                "value": null
+              },
+              {
+                "color": "rgba(237, 129, 40, 0.89)",
+                "value": 0.6
+              },
+              {
+                "color": "#d44a3a",
+                "value": 0.8
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 5,
@@ -477,42 +527,28 @@
         "y": 5
       },
       "id": 8,
-      "interval": null,
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": true
+      "options": {
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "text": {}
       },
-      "tableColumn": "",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
           "expr": "pve_memory_usage_bytes{instance=\"$instance\"} / pve_memory_size_bytes and on(id) pve_node_info",
           "format": "time_series",
           "intervalFactor": 1,
@@ -520,28 +556,25 @@
           "refId": "A"
         }
       ],
-      "thresholds": "0.6,0.8",
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Host Memory",
-      "type": "singlestat",
-      "valueFontSize": "80%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
+      "type": "gauge"
     },
     {
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
       "decimals": 0,
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 0,
       "fillGradient": 0,
       "gridPos": {
@@ -560,7 +593,6 @@
         "min": false,
         "rightSide": true,
         "show": true,
-        "sideWidth": null,
         "total": false,
         "values": true
       },
@@ -569,9 +601,10 @@
       "links": [],
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": true,
+      "pluginVersion": "9.3.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -581,6 +614,10 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
           "expr": "((pve_cpu_usage_ratio{instance=\"$instance\"} / pve_cpu_usage_limit) * on(id, instance) group_left(name, type) pve_guest_info) and on(id, instance) pve_up == 1",
           "format": "time_series",
           "interval": "",
@@ -599,9 +636,7 @@
           "yaxis": "left"
         }
       ],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "Guests CPU usage",
       "tooltip": {
         "shared": true,
@@ -610,9 +645,7 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
@@ -622,22 +655,16 @@
           "format": "percentunit",
           "label": "",
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
           "format": "percentunit",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": false
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
@@ -645,8 +672,17 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
       "decimals": 0,
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 0,
       "fillGradient": 0,
       "gridPos": {
@@ -665,7 +701,6 @@
         "min": false,
         "rightSide": true,
         "show": true,
-        "sideWidth": null,
         "total": false,
         "values": true
       },
@@ -674,9 +709,10 @@
       "links": [],
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": true,
+      "pluginVersion": "9.3.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -686,6 +722,10 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
           "expr": "(pve_memory_usage_bytes{instance=\"$instance\"} / pve_memory_size_bytes * on(id, instance) group_left(name, type) pve_guest_info) and on(id, instance) pve_up == 1",
           "format": "time_series",
           "interval": "",
@@ -704,9 +744,7 @@
           "yaxis": "left"
         }
       ],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "Guests memory usage",
       "tooltip": {
         "shared": true,
@@ -715,9 +753,7 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
@@ -728,25 +764,63 @@
           "label": "",
           "logBase": 1,
           "max": "1.2",
-          "min": null,
           "show": true
         },
         {
           "format": "percentunit",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": false
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "mappings": [
+            {
+              "from": "",
+              "id": 1,
+              "operator": "",
+              "text": "",
+              "to": "",
+              "type": 1,
+              "value": ""
+            }
+          ],
+          "max": 1,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 0.75
+              },
+              {
+                "color": "red",
+                "value": 0.9
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
       "gridPos": {
         "h": 11,
         "w": 3,
@@ -756,68 +830,35 @@
       "id": 11,
       "links": [],
       "options": {
-        "fieldOptions": {
+        "orientation": "auto",
+        "reduceOptions": {
           "calcs": [
             "last"
           ],
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "decimals": 1,
-            "mappings": [
-              {
-                "from": "",
-                "id": 1,
-                "operator": "",
-                "text": "",
-                "to": "",
-                "type": 1,
-                "value": ""
-              }
-            ],
-            "max": 1,
-            "min": 0,
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "yellow",
-                  "value": 0.75
-                },
-                {
-                  "color": "red",
-                  "value": 0.9
-                }
-              ]
-            },
-            "unit": "percentunit"
-          },
-          "overrides": [],
+          "fields": "",
           "values": false
         },
-        "orientation": "auto",
         "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "text": {}
       },
-      "pluginVersion": "6.7.2",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "exemplar": true,
           "expr": "pve_disk_usage_bytes{instance=\"$instance\", id=~\"storage/.+\"} / pve_disk_size_bytes * on (id, instance) group_left(storage) pve_storage_info",
           "format": "time_series",
           "instant": true,
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{name}}",
+          "legendFormat": "{{storage}}",
           "refId": "A"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Storage usage",
       "type": "gauge"
     },
@@ -826,8 +867,17 @@
       "bars": true,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
       "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -852,9 +902,10 @@
       "links": [],
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "9.3.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -864,18 +915,22 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "exemplar": true,
           "expr": "pve_disk_size_bytes{instance=\"$instance\", id=~\"storage/.+\"} * on (id, instance) group_left(storage) pve_storage_info",
           "format": "time_series",
           "instant": true,
+          "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{name}}",
+          "legendFormat": "{{storage}}",
           "refId": "A"
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "Space allocation",
       "tooltip": {
         "shared": false,
@@ -884,9 +939,7 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "series",
-        "name": null,
         "show": true,
         "values": [
           "current"
@@ -898,22 +951,16 @@
           "format": "bytes",
           "label": "",
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
@@ -921,8 +968,17 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
       "decimals": 0,
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 0,
       "fillGradient": 0,
       "gridPos": {
@@ -944,9 +1000,6 @@
         "min": false,
         "rightSide": true,
         "show": true,
-        "sideWidth": null,
-        "sort": null,
-        "sortDesc": null,
         "total": false,
         "values": true
       },
@@ -955,9 +1008,10 @@
       "links": [],
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": true,
+      "pluginVersion": "9.3.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -972,6 +1026,10 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
           "expr": "pve_disk_usage_bytes{instance=\"$instance\"} / pve_disk_size_bytes{instance=\"$instance\"} * on (id, instance) group_left(name, type) pve_guest_info",
           "format": "time_series",
           "interval": "",
@@ -998,9 +1056,7 @@
           "yaxis": "left"
         }
       ],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "Guests Disk usage",
       "tooltip": {
         "shared": false,
@@ -1009,9 +1065,7 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
@@ -1019,24 +1073,18 @@
         {
           "decimals": 1,
           "format": "percentunit",
-          "label": null,
           "logBase": 1,
           "max": "1.2",
-          "min": null,
           "show": true
         },
         {
           "format": "percentunit",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": false
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
@@ -1044,9 +1092,18 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
       "decimals": 0,
       "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 0,
       "fillGradient": 0,
       "gridPos": {
@@ -1067,7 +1124,6 @@
         "min": false,
         "rightSide": true,
         "show": true,
-        "sideWidth": null,
         "total": true,
         "values": true
       },
@@ -1076,9 +1132,10 @@
       "links": [],
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": true,
+      "pluginVersion": "9.3.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1093,6 +1150,10 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
           "expr": "(rate(pve_network_receive_bytes{instance=\"$instance\"}[5m]) * on(id, instance) group_left(name, type) pve_guest_info) and on(id, instance) pve_up == 1",
           "format": "time_series",
           "interval": "",
@@ -1101,6 +1162,10 @@
           "refId": "A"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
           "expr": "(rate(pve_network_transmit_bytes{instance=\"$instance\"}[5m])* on(id, instance) group_left(name, type) pve_guest_info) and on(id, instance) pve_up == 1",
           "format": "time_series",
           "interval": "",
@@ -1110,9 +1175,7 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "Network IO/s",
       "tooltip": {
         "shared": false,
@@ -1121,9 +1184,7 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
@@ -1133,16 +1194,11 @@
           "format": "Bps",
           "label": "",
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
           "format": "percentunit",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": false
         }
       ],
@@ -1156,9 +1212,18 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
       "decimals": 0,
       "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 0,
       "fillGradient": 0,
       "gridPos": {
@@ -1179,7 +1244,6 @@
         "min": false,
         "rightSide": true,
         "show": true,
-        "sideWidth": null,
         "total": false,
         "values": true
       },
@@ -1188,9 +1252,10 @@
       "links": [],
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": true,
+      "pluginVersion": "9.3.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1200,6 +1265,10 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
           "expr": "((rate(pve_disk_write_bytes{instance=\"$instance\"}[5m]) + rate(pve_disk_read_bytes[5m])) * on(id, instance) group_left(name, type) pve_guest_info) and on(id, instance) pve_up == 1",
           "format": "time_series",
           "interval": "",
@@ -1209,9 +1278,7 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "Disk IO/s",
       "tooltip": {
         "shared": true,
@@ -1220,9 +1287,7 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
@@ -1232,16 +1297,11 @@
           "format": "Bps",
           "label": "",
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
           "format": "percentunit",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": false
         }
       ],
@@ -1252,7 +1312,7 @@
     }
   ],
   "refresh": "10s",
-  "schemaVersion": 22,
+  "schemaVersion": 37,
   "style": "dark",
   "tags": [
     "Proxmox",
@@ -1261,24 +1321,26 @@
   "templating": {
     "list": [
       {
-        "allValue": null,
         "current": {},
-        "datasource": "${DS_PROMETHEUS}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DS_PROMETHEUS}"
+        },
         "definition": "label_values(pve_node_info, instance)",
         "hide": 0,
         "includeAll": false,
-        "index": -1,
-        "label": null,
         "multi": false,
         "name": "instance",
         "options": [],
-        "query": "label_values(pve_node_info, instance)",
+        "query": {
+          "query": "label_values(pve_node_info, instance)",
+          "refId": "Prometheus-instance-Variable-Query"
+        },
         "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
         "sort": 1,
         "tagValuesQuery": "",
-        "tags": [],
         "tagsQuery": "",
         "type": "query",
         "useTags": false
@@ -1317,8 +1379,6 @@
   "timezone": "",
   "title": "Proxmox via Prometheus",
   "uid": "Dp7Cd57Zza",
-  "variables": {
-    "list": []
-  },
-  "version": 9
+  "version": 12,
+  "weekStart": ""
 }
