@@ -226,6 +226,17 @@
                       "to": 2
                     },
                     "type": "range"
+                  },
+                  {
+                    "options": {
+                      "match": "null",
+                      "result": {
+                        "color": "#808080",
+                        "index": 3,
+                        "text": "n/a"
+                      }
+                    },
+                    "type": "special"
                   }
                 ]
               },
@@ -241,10 +252,6 @@
               "options": "Disk usage (%)"
             },
             "properties": [
-              {
-                "id": "unit",
-                "value": "percentunit"
-              },
               {
                 "id": "mappings",
                 "value": [
@@ -280,6 +287,17 @@
                       "to": 2
                     },
                     "type": "range"
+                  },
+                  {
+                    "options": {
+                      "match": "null",
+                      "result": {
+                        "color": "#808080",
+                        "index": 3,
+                        "text": "n/a"
+                      }
+                    },
+                    "type": "special"
                   }
                 ]
               },
@@ -290,6 +308,10 @@
               {
                 "id": "custom.width",
                 "value": 120
+              },
+              {
+                "id": "unit",
+                "value": "percentunit"
               }
             ]
           },
@@ -424,7 +446,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum by (id) (pve_memory_usage_bytes{instance=\"$instance\",template!=\"1\"} / pve_memory_size_bytes and on (id, instance) pve_guest_info)",
+          "expr": "sum by (id) (pve_memory_usage_bytes{instance=\"$instance\",template!=\"1\"} / pve_memory_size_bytes and on (id, instance) pve_guest_info and on (id) pve_up==1)",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -454,7 +476,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum by (id) (pve_disk_usage_bytes{instance=\"$instance\",template!=\"1\"} / pve_disk_size_bytes and on (id, instance) pve_guest_info)",
+          "expr": "sum by (id) (pve_disk_usage_bytes{instance=\"$instance\"} / pve_disk_size_bytes and on (id, instance) pve_guest_info{type=\"lxc\"})",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -1466,6 +1488,6 @@
   "timezone": "",
   "title": "Proxmox via Prometheus",
   "uid": "Dp7Cd57Zza",
-  "version": 2,
+  "version": 3,
   "weekStart": ""
 }
